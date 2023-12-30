@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c7aa349-3e31-4b2a-a68e-355d89bf1001" name="Changes" comment="sketch of the contour detection">
+    <list default="true" id="0c7aa349-3e31-4b2a-a68e-355d89bf1001" name="Changes" comment="added comments expalining the code">
+      <change afterPath="$PROJECT_DIR$/document_scanner.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/presentation_notes.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scans/scan_1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scans/scan_2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scans/scan_3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/~$esentation_notes.docx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -105,28 +111,22 @@
       <option name="project" value="LOCAL" />
       <updated>1703550371678</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="added bookmarks">
+      <option name="closed" value="true" />
+      <created>1703624361668</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1703624361668</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="keyboard interupts" />
     <MESSAGE value="sketch of the contour detection" />
-    <option name="LAST_COMMIT_MESSAGE" value="sketch of the contour detection" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>54</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>64</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="added bookmarks" />
+    <MESSAGE value="added comments expalining the code" />
+    <option name="LAST_COMMIT_MESSAGE" value="added comments expalining the code" />
   </component>
 </project>
