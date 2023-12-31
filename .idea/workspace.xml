@@ -5,14 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0c7aa349-3e31-4b2a-a68e-355d89bf1001" name="Changes" comment="added comments expalining the code">
-      <change afterPath="$PROJECT_DIR$/document_scanner.pptx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/presentation_notes.docx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scans/scan_1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scans/scan_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scans/scan_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/~$esentation_notes.docx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/document_scanner.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/document_scanner.pptx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scans/scan_1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/scans/scan_1.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scans/scan_2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/scans/scan_2.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scans/scan_3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/scans/scan_3.jpg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +19,20 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "JerzyJerzu"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="ca8031ef-d3f1-4d75-ba4b-f4da4dcdbbf2" />
+        <option name="url" value="https://github.com/JerzyJerzu/Document-Scanner.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
@@ -119,7 +131,15 @@
       <option name="project" value="LOCAL" />
       <updated>1703624361668</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="added comments expalining the code">
+      <option name="closed" value="true" />
+      <created>1703977185786</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1703977185786</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
