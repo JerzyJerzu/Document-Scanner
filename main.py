@@ -5,7 +5,7 @@ import numpy as np
 from scipy.spatial import distance as dist
 
 # to learn:
-# cv2.threshold
+# cv2.threshold or cv2.adaptiveTreshold()
 # image restoration
 # optional: add the functionality to rotate a frame
 
@@ -45,12 +45,15 @@ def detect_contour():
     #plt.imshow(edges)
     return scan_borders
 
-
+#TO DO:
+def closing(image):
+    return image
 def thresholding(image):
     #adjust values:
-    _, threshold = cv2.threshold(image, 128, 255, cv2.THRESH_BINARY)
-
-    return threshold
+    blurred = cv2.GaussianBlur(frame, (3, 3), 1)
+    #adjust the parameters
+    thresholded = cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 20, 2)
+    return thresholded
 
 # This function comes from the Imutils package
 # https://github.com/PyImageSearch/imutils/blob/master/imutils/perspective.py
@@ -122,7 +125,7 @@ def four_point_transform(image, pts):
     return warped
 
 # change the argument to change the camera
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 
 _, frame = cap.read()
 
