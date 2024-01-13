@@ -5,9 +5,10 @@ import numpy as np
 from scipy.spatial import distance as dist
 
 # to learn:
-# cv2.threshold or cv2.adaptiveTreshold()
-# image restoration
+# what is c in cv2.adaptiveTreshold()
 # optional: add the functionality to rotate a frame
+# add visualisation
+# understand the plotting
 
 def detect_contour():
     blurred = cv2.GaussianBlur(frame, (5, 5), 1)
@@ -48,8 +49,6 @@ def detect_contour():
 #TO DO:
 def closing(img):
     img = cv2.bitwise_not(img)
-    kernel = cv2.getStructuringElement(cv2.MORPH_CROSS, (5, 5))
-    #kernel = np.ones((5, 5), np.uint8)
     kernel = np.ones((5, 5), np.uint8)
     img = cv2.dilate(img, kernel)
     img = cv2.erode(img, kernel)
@@ -58,27 +57,20 @@ def closing(img):
     kernel = cv2.getStructuringElement(cv2.MORPH_CROSS, (5, 5))
     img = cv2.dilate(img, kernel)
     kernel = np.ones((3, 3), np.uint8)
-    #img = cv2.dilate(img, kernel)
     img = cv2.erode(img, kernel)
     img = cv2.dilate(img, kernel)
     kernel = cv2.getStructuringElement(cv2.MORPH_CROSS, (3, 3))
     img = cv2.erode(img, kernel)
-    #img = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
-    #img = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
-    #img = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
     img = cv2.bitwise_not(img)
     return img
 def denoising(img):
     img = cv2.bitwise_not(img)
     img = cv2.medianBlur(img, 3)
-    #_, img = cv2.threshold(img, 128, 255, cv2.THRESH_BINARY)
     kernel = np.ones((3, 3), np.uint8)
     img = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
     img = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
     img = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
     img = cv2.medianBlur(img, 5)
-    kernel = cv2.getStructuringElement(cv2.MORPH_CROSS, (5, 5))
-    #img = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
     img = cv2.bitwise_not(img)
     return img
 def thresholding(img):
@@ -90,10 +82,8 @@ def thresholding(img):
     # Calculate the new dimensions after scaling
     new_width = int(original_width * scale_factor_x)
     new_height = int(original_height * scale_factor_y)
+
     resized = cv2.resize(img, (new_width, new_height))
-    #adjust values:
-    blurred = cv2.GaussianBlur(resized, (3, 3), 1)
-    #adjust the parameters
     thresholded = cv2.adaptiveThreshold(resized, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 21, 2)
     return thresholded
 
