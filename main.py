@@ -35,7 +35,7 @@ def detect_contour():
         if contour_area > 2500:
             contour_len = cv2.arcLength(contour, True)
             #  the 0.02 * contourLen value is a maximum deistance between contour and its aproximation
-            polygon = cv2.approxPolyDP(contour, 0.02*contour_len, True)
+            polygon = cv2.approxPolyDP(contour, 0.1*contour_len, True)
             # if the contour can be aproximated to polygon with the area bigger than
             if len(polygon) == 4 and contour_area > max_area:
                 scan_borders = polygon
@@ -47,15 +47,40 @@ def detect_contour():
 
 #TO DO:
 def closing(img):
+    img = cv2.bitwise_not(img)
     kernel = cv2.getStructuringElement(cv2.MORPH_CROSS, (5, 5))
-    for i in range(1):
-        img = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
-        img = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
+    #kernel = np.ones((5, 5), np.uint8)
+    kernel = np.ones((5, 5), np.uint8)
+    img = cv2.dilate(img, kernel)
+    img = cv2.erode(img, kernel)
+    img = cv2.dilate(img, kernel)
+    img = cv2.erode(img, kernel)
+    kernel = cv2.getStructuringElement(cv2.MORPH_CROSS, (5, 5))
+    img = cv2.dilate(img, kernel)
+    kernel = np.ones((3, 3), np.uint8)
+    #img = cv2.dilate(img, kernel)
+    img = cv2.erode(img, kernel)
+    img = cv2.dilate(img, kernel)
+    kernel = cv2.getStructuringElement(cv2.MORPH_CROSS, (3, 3))
+    img = cv2.erode(img, kernel)
+    #img = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
+    #img = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
+    #img = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
+    img = cv2.bitwise_not(img)
     return img
 def denoising(img):
-    denoised_image = cv2.GaussianBlur(img, (5, 5), 0)
-    _, denoised_image = cv2.threshold(denoised_image, 128, 255, cv2.THRESH_BINARY)
-    return denoised_image
+    img = cv2.bitwise_not(img)
+    img = cv2.medianBlur(img, 3)
+    #_, img = cv2.threshold(img, 128, 255, cv2.THRESH_BINARY)
+    kernel = np.ones((3, 3), np.uint8)
+    img = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
+    img = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
+    img = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
+    img = cv2.medianBlur(img, 5)
+    kernel = cv2.getStructuringElement(cv2.MORPH_CROSS, (5, 5))
+    #img = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
+    img = cv2.bitwise_not(img)
+    return img
 def thresholding(img):
     original_height, original_width = img.shape[:2]
     # Specify the scaling factors for resizing
@@ -67,11 +92,9 @@ def thresholding(img):
     new_height = int(original_height * scale_factor_y)
     resized = cv2.resize(img, (new_width, new_height))
     #adjust values:
-    blurred = cv2.GaussianBlur(resized, (5, 5), 1)
+    blurred = cv2.GaussianBlur(resized, (3, 3), 1)
     #adjust the parameters
-    thresholded = cv2.adaptiveThreshold(blurred, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 45, 2)
-    #_, thresholded = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-    #_, thresholded = cv2.threshold(blurred, 240, 255, cv2.THRESH_BINARY)
+    thresholded = cv2.adaptiveThreshold(resized, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 21, 2)
     return thresholded
 
 # This function comes from the Imutils package
@@ -184,10 +207,10 @@ while True:
         tresholded = thresholding(transformed)
         restored = closing(tresholded)
         denoised = denoising(restored)
-        cv2.imwrite("test/scan_" + str(scan_index) + "no_scaling_transformed.jpg", transformed)
-        cv2.imwrite("test/scan_" + str(scan_index) + "no_scaling_tresholded_5x5_blur_5x5_55block.jpg", tresholded)
-        cv2.imwrite("test/scan_" + str(scan_index) + "no_scaling_closing&openieng_5x5_blur_5x5_55block.jpg", restored)
-        cv2.imwrite("test/scan_" + str(scan_index) + "no_scaling_gaussian_5x5_closing&openieng_5x5_blur_5x5_55block.jpg", denoised)
+        cv2.imwrite("demo4/scan_" + str(scan_index) + "_transformed.jpg", transformed)
+        cv2.imwrite("demo4/scan_" + str(scan_index) + "_tresholded_5x5_blur_5x5_20block.jpg", tresholded)
+        cv2.imwrite("demo4/scan_" + str(scan_index) + "_2Xopenieng&2Xclosing_5x5_blur_5x5_20block.jpg", restored)
+        cv2.imwrite("demo4/scan_" + str(scan_index) + "_gaussian_5x5_closing&openieng_5x5_blur_5x5_20block.jpg", denoised)
         scan_index += 1
         plt.imshow(frame)
         plt.pause(2)
