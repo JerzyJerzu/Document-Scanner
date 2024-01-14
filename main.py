@@ -3,6 +3,8 @@ import keyboard
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.spatial import distance as dist
+from PIL import Image
+import os
 
 # to learn:
 # what is c in cv2.adaptiveTreshold()
@@ -10,7 +12,7 @@ from scipy.spatial import distance as dist
 # add visualisation
 # understand the plotting
 
-def detect_contour():
+def detect_contour(frame):
     blurred = cv2.GaussianBlur(frame, (5, 5), 1)
     # apply automatic Canny edge detection using the computed median
     med = np.median(blurred)
@@ -73,17 +75,15 @@ def denoising(img):
     img = cv2.medianBlur(img, 5)
     img = cv2.bitwise_not(img)
     return img
-def thresholding(img):
+def thresholding(img, scale_factor):
     original_height, original_width = img.shape[:2]
-    # Specify the scaling factors for resizing
-    scale_factor_x = 3
-    scale_factor_y = 3
 
     # Calculate the new dimensions after scaling
-    new_width = int(original_width * scale_factor_x)
-    new_height = int(original_height * scale_factor_y)
+    new_width = int(original_width * scale_factor)
+    new_height = int(original_height * scale_factor)
 
     resized = cv2.resize(img, (new_width, new_height))
+    #blurred = cv2.GaussianBlur(resized, (5,5), 1)
     thresholded = cv2.adaptiveThreshold(resized, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 21, 2)
     return thresholded
 
@@ -155,54 +155,86 @@ def four_point_transform(image, pts):
 
     # return the warped image
     return warped
+def save_image(demo_mode, scan_borders, frame_copy, frame, scan_index, scale_factor):
+    points = scan_borders.reshape(4, 2)
+    transformed = four_point_transform(frame_copy, points)
+    thresholded = thresholding(transformed, scale_factor)
+    bolded = closing(thresholded)
+    denoised = denoising(bolded)
+    if demo_mode == True:
+        cv2.imwrite("demo/scan_" + str(scan_index) + "_original.jpg", frame)
+        cv2.imwrite("demo/scan_" + str(scan_index) + "_cropped.jpg", transformed)
+        cv2.imwrite("demo/scan_" + str(scan_index) + "_thresholded.jpg", thresholded)
+        cv2.imwrite("demo/scan_" + str(scan_index) + "_bolded.jpg", bolded)
+    cv2.imwrite("output/scan_" + str(scan_index) + ".jpg", denoised)
+    print("scan saved")
+
+def read_images_from_folder():
+    folder_path = './input'
+    image_list = []
+
+    # List all files in the folder
+    files = os.listdir(folder_path)
+
+    # Filter only files with .jpg and .png extensions by checking the end of the filename
+    image_files = [file for file in files if file.lower().endswith(('.jpg', '.png'))]
+
+    # Read images using PIL
+    for image_file in image_files:
+        image_path = os.path.join(folder_path, image_file)
+        try:
+            img = cv2.imread(image_path)
+            image_list.append(img)
+        except Exception as e:
+            print(f"Error reading image '{image_file}': {e}")
+    return image_list
 
 # change the argument to change the camera
-cap = cv2.VideoCapture(0)
-
-_, frame = cap.read()
-
-height, width, _ = frame.shape
-
-#cap.set(cv2.CAP_PROP_FRAME_WIDTH, WIDTH)
-#cap.set(cv2.CAP_PROP_FRAME_HEIGHT, HEIGHT)
-
-#what is fig?
-fig, ax = plt.subplots()
-
-
+demo_mode = True
+camera_mode = False
 scan_index = 1
+camera = 0
 
-while True:
+if camera_mode == True:
+    cap = cv2.VideoCapture(camera)
     _, frame = cap.read()
-    #turning to greyscale
-    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    # perform all bluring operations on the original frame
-    # and use frame copy for saving the scan
-    frame_copy = frame.copy()
+    height, width, _ = frame.shape
+    # what is fig?
+    fig, ax = plt.subplots()
 
-    scan_borders = detect_contour()
+    while True:
+        _, frame = cap.read()
+        # turning to greyscale
+        frame = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
+        # perform all bluring and drawing operations on the original frame
+        # and use frame copy for saving the scan
+        frame_copy = frame.copy()
 
-    #displaying the frame:
-    plt.imshow(frame) #displays the current frame in the Matplotlib axis.
-    plt.pause(0.2)
-    ax.cla() #clears the previous plot to show the next frame.
+        scan_borders = detect_contour(frame)
 
+        #displaying the frame:
+        plt.imshow(frame) #displays the current frame in the Matplotlib axis.
+        plt.pause(0.2)
+        ax.cla() #clears the previous plot to show the next frame.
 
-    # Check if the Escape key is pressed
-    if keyboard.is_pressed('esc'):
-        break
-    elif keyboard.is_pressed('w'):
-        points = scan_borders.reshape(4, 2)
-        transformed = four_point_transform(frame_copy, points)
-        tresholded = thresholding(transformed)
-        restored = closing(tresholded)
-        denoised = denoising(restored)
-        cv2.imwrite("demo4/scan_" + str(scan_index) + "_transformed.jpg", transformed)
-        cv2.imwrite("demo4/scan_" + str(scan_index) + "_tresholded_5x5_blur_5x5_20block.jpg", tresholded)
-        cv2.imwrite("demo4/scan_" + str(scan_index) + "_2Xopenieng&2Xclosing_5x5_blur_5x5_20block.jpg", restored)
-        cv2.imwrite("demo4/scan_" + str(scan_index) + "_gaussian_5x5_closing&openieng_5x5_blur_5x5_20block.jpg", denoised)
+        # Check if the Escape key is pressed
+        if keyboard.is_pressed('esc'):
+            break
+        elif keyboard.is_pressed('w'):
+            save_image(demo_mode, scan_borders, frame_copy, frame, scan_index, 3)
+            scan_index += 1
+            plt.imshow(frame)
+            plt.pause(2)
+    cap.release()
+else:
+    # Not finished yet:
+    images = read_images_from_folder()
+    for image in images:
+        height, width, _ = image.shape
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+        # perform all bluring and drawing operations on the original frame
+        # and use frame copy for saving the scan
+        image_copy = image.copy()
+        borders = detect_contour(image)
+        save_image(demo_mode, borders, image_copy, image, scan_index, 1)
         scan_index += 1
-        plt.imshow(frame)
-        plt.pause(2)
-        print("scan saved")
-cap.release()
