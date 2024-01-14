@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c7aa349-3e31-4b2a-a68e-355d89bf1001" name="Changes" comment="cleaned the code">
+    <list default="true" id="0c7aa349-3e31-4b2a-a68e-355d89bf1001" name="Changes" comment="Added functionality to process images from the folder, but not working properly yet">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/document_scanner.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/document_scanner.pptx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scans/scan_1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/scans/scan_1.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scans/scan_2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/scans/scan_2.jpg" afterDir="false" />
@@ -172,7 +173,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705183776727</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Added functionality to process images from the folder, but not working properly yet">
+      <option name="closed" value="true" />
+      <created>1705236551684</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1705236551684</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -207,6 +216,7 @@
     <MESSAGE value="adaptive tresholding, scailing, morpholodgy, denoising" />
     <MESSAGE value="bolding the text" />
     <MESSAGE value="cleaned the code" />
-    <option name="LAST_COMMIT_MESSAGE" value="cleaned the code" />
+    <MESSAGE value="Added functionality to process images from the folder, but not working properly yet" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added functionality to process images from the folder, but not working properly yet" />
   </component>
 </project>

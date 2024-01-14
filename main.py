@@ -6,11 +6,10 @@ from scipy.spatial import distance as dist
 from PIL import Image
 import os
 
-# to learn:
-# what is c in cv2.adaptiveTreshold()
-# optional: add the functionality to rotate a frame
-# add visualisation
-# understand the plotting
+# TODO:
+# Add the functionality to rotate a frame
+# Tune the parameters for the higher resolution camera
+# split the code to different files and improve it readability
 
 def detect_contour(frame):
     blurred = cv2.GaussianBlur(frame, (5, 5), 1)
@@ -49,7 +48,7 @@ def detect_contour(frame):
     return scan_borders
 
 #TO DO:
-def closing(img):
+def bolding(img):
     img = cv2.bitwise_not(img)
     kernel = np.ones((5, 5), np.uint8)
     img = cv2.dilate(img, kernel)
@@ -84,6 +83,7 @@ def thresholding(img, scale_factor):
 
     resized = cv2.resize(img, (new_width, new_height))
     #blurred = cv2.GaussianBlur(resized, (5,5), 1)
+    #C: Constant subtracted from the mean or weighted mean.It is used to fine - tune the threshold value.
     thresholded = cv2.adaptiveThreshold(resized, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 21, 2)
     return thresholded
 
@@ -159,7 +159,7 @@ def save_image(demo_mode, scan_borders, frame_copy, frame, scan_index, scale_fac
     points = scan_borders.reshape(4, 2)
     transformed = four_point_transform(frame_copy, points)
     thresholded = thresholding(transformed, scale_factor)
-    bolded = closing(thresholded)
+    bolded = bolding(thresholded)
     denoised = denoising(bolded)
     if demo_mode == True:
         cv2.imwrite("demo/scan_" + str(scan_index) + "_original.jpg", frame)
@@ -191,7 +191,7 @@ def read_images_from_folder():
 
 # change the argument to change the camera
 demo_mode = True
-camera_mode = False
+camera_mode = True
 scan_index = 1
 camera = 0
 
@@ -199,8 +199,7 @@ if camera_mode == True:
     cap = cv2.VideoCapture(camera)
     _, frame = cap.read()
     height, width, _ = frame.shape
-    # what is fig?
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots() # fig is a container and ax is the plotting area
 
     while True:
         _, frame = cap.read()
